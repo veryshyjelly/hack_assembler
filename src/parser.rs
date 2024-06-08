@@ -33,8 +33,20 @@ impl<'a> Parser<'a> {
 
             if s[0] == '=' {
                 instruction.dest = f.to_vec();
+                // Read full line till there is ;
                 let x = self.lexer.chop_while(|&x| !x.is_control() && x != ';');
-                instruction.comp.extend_from_slice(x);
+
+                // Check for comments across the line
+                let mut i = 1;
+                while i < x.len() {
+                    if x[i] == '/' && x[i - 1] == '/' {
+                        i -= 1;
+                        break;
+                    }
+                    i += 1;
+                }
+
+                instruction.comp.extend_from_slice(&x[..i]);
                 self.lexer.trim_left();
 
                 if !self.lexer.is_empty() && self.lexer.content[0] == ';' {
