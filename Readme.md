@@ -46,7 +46,7 @@ it [here](https://www.rust-lang.org/tools/install).
 Clone the repository and navigate to the project directory:
 
 ```sh
-git clone https://github.com/yourusername/hack-assembler.git
+git clone https://github.com/veryshyjelly/hack-assembler.git
 cd hack-assembler
 ```
 
