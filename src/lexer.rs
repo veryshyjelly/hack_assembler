@@ -55,7 +55,7 @@ impl<'a> Lexer<'a> {
         Some(self.chop(1))
     }
 
-    // pub fn is_empty(&self) -> bool {
-    //     self.content.is_empty()
-    // }
+    pub fn is_empty(&self) -> bool {
+        self.content.is_empty()
+    }
 }
