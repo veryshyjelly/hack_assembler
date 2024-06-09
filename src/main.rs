@@ -19,7 +19,7 @@ fn main() {
         .unwrap()
         .read_to_string(&mut data)
         .unwrap();
-    let content = data.to_uppercase().chars().collect::<Vec<char>>();
+    let content = data.chars().collect::<Vec<char>>();
 
     let mut symbol_table = HashMap::from([
         ("R0".into(), 0),

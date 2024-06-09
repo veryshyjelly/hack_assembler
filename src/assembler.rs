@@ -104,7 +104,7 @@ impl CInstruction {
             "A-D" | "M-D" => 0b000111,
             "D&A" | "D&M" | "M&D" | "A&D" => 0,
             "D|M" | "M|D" | "D|A" | "A|D" => 0b010101,
-            _ => 0,
+            _ => panic!("invalid operation {}", comp),
         } << 6;
 
         format!("{:016b}", val)
