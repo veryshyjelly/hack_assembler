@@ -29,7 +29,7 @@ impl<'a> Parser<'a> {
             Some(Pseudo(instruction))
         } else { // otherwise c instruction
             let s = self.lexer.next_token().unwrap_or(&[]);
-            if s.len() == 0 { return None; }
+            if s.len() == 0 { panic!("Syntax error, expected token after {}", f); }
             let mut instruction = CInstruction::new();
 
             if s[0] == '=' {
