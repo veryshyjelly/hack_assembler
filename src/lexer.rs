@@ -3,7 +3,9 @@ pub struct Lexer<'a> {
 }
 
 impl<'a> Lexer<'a> {
-    pub fn new(content: &'a [char]) -> Self { Self { content } }
+    pub fn new(content: &'a [char]) -> Self {
+        Self { content }
+    }
 
     // Trim whitespaces from left
     pub fn trim_left(&mut self) {
@@ -22,8 +24,9 @@ impl<'a> Lexer<'a> {
     }
 
     // Chop while the given predicate is true
-    pub fn chop_while<P>(&mut self, mut predicate: P) -> &'a [char]
-        where P: FnMut(&char) -> bool
+    fn chop_while<P>(&mut self, mut predicate: P) -> &'a [char]
+    where
+        P: FnMut(&char) -> bool,
     {
         if let Some(n) = self.content.iter().position(|x| !predicate(x)) {
             self.chop(n)
@@ -52,7 +55,8 @@ impl<'a> Lexer<'a> {
         if self.content[0].is_numeric() {
             Some(self.chop_while(|x| x.is_numeric()))
         } else if self.content[0].is_alphabetic() {
-            Some(self.chop_while(|x| x.is_alphanumeric()))
+            // Variable rules: can contain _ or . or $
+            Some(self.chop_while(|&x| x.is_alphanumeric() || x == '_' || x == '.' || x == '$'))
         } else {
             Some(self.chop(1))
         }

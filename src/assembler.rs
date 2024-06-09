@@ -6,9 +6,15 @@ pub struct AInstruction {
 }
 
 impl AInstruction {
-    pub fn new(value: Vec<char>) -> Self { Self { value } }
+    pub fn new(value: Vec<char>) -> Self {
+        Self { value }
+    }
 
-    pub fn machine_code(self, symbol_table: &mut HashMap<String, u16>, variable_number: u16) -> (String, u16) {
+    pub fn machine_code(
+        self,
+        symbol_table: &mut HashMap<String, u16>,
+        variable_number: u16,
+    ) -> (String, u16) {
         let symbol = self.value.iter().collect::<String>();
         return if let Ok(val) = symbol.parse::<u16>() {
             // If the symbol is value then push it's binary representation
@@ -38,7 +44,13 @@ pub struct CInstruction {
 }
 
 impl CInstruction {
-    pub fn new() -> Self { Self { comp: vec![], jmp: vec![], dest: vec![] } }
+    pub fn new() -> Self {
+        Self {
+            comp: vec![],
+            jmp: vec![],
+            dest: vec![],
+        }
+    }
 
     pub fn machine_code(self) -> String {
         let mut val = 0b111u16 << 13;
@@ -61,15 +73,18 @@ impl CInstruction {
             "JNE" => 5,
             "JLE" => 6,
             "JMP" => 7,
-            _ => 0
+            _ => 0,
         };
 
         if self.comp.contains(&'M') {
             val |= 0b1 << 12;
         }
 
-        let comp = self.comp.iter()
-            .filter(|&x| !x.is_whitespace()).collect::<String>();
+        let comp = self
+            .comp
+            .iter()
+            .filter(|&x| !x.is_whitespace())
+            .collect::<String>();
         val |= match comp.as_str() {
             "0" => 0b101010,
             "1" => 0b111111,
@@ -89,7 +104,7 @@ impl CInstruction {
             "A-D" | "M-D" => 0b000111,
             "D&A" | "D&M" | "M&D" | "A&D" => 0,
             "D|M" | "M|D" | "D|A" | "A|D" => 0b010101,
-            _ => 0
+            _ => 0,
         } << 6;
 
         format!("{:016b}", val)
