@@ -19,6 +19,7 @@ impl<'a> Parser<'a> {
         if f[0] == '@' { // case of A instruction
             let s = self.lexer.chop_while(|&x| x != '/' && !x.is_whitespace());
             let instruction = AInstruction::new(s.to_vec());
+
             Some(A(instruction))
         } else if f[0] == '(' { // case of a label
             let s = self.lexer.chop_while(|&x| x != ')');

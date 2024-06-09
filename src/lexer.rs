@@ -35,8 +35,8 @@ impl<'a> Lexer<'a> {
             // Ignore the comments
             self.trim_left();
             if self.content.len() > 1 && self.content[0] == '/' && self.content[1] == '/' {
-                self.chop_while(|&x| x != '\n');
-                self.content = &self.content[1..];
+                self.chop_while(|&x| !x.is_control());
+                self.trim_left();
             } else {
                 break;
             }
